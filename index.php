@@ -5,41 +5,37 @@
 
 
 
-include "db-connect.php";
+include "db-connect.php"; // db connection
 
-// $json = file_get_contents('php://input');
-// $jo = json_decode($json);
-// $id =  $jo->id;
+$json = file_get_contents('php://input'); // getting request body
+$jo = json_decode($json); // decoding request body to json
+$id =  $jo->id; // getting id from body
 
-// $select = "SELECT * FROM game WHERE id='$id'";
-// $run = mysqli_query($conn, $select);
-// $count = mysqli_num_rows($run);
-// if ($count > 0) {
-//     while ($row = mysqli_fetch_assoc($run)) {
-//         $emparray1[] = $row;
-// $obj = array("apiResponseMessage" => "Any message here", "apiResponseStatus" => false or true, "status" => 1 or 0, "response" => [$emparray1]);
-//         $data =  json_encode($emparray1, JSON_PRETTY_PRINT);
-//     }
-// } else {
-//     $obj = array("apiResponseMessage" => "No Data", "apiResponseStatus" => false, "status" => 0, "response" => []);
-//     $nodata = json_encode($obj);
-//     echo $nodata;
-// }
-
-
+$select = "SELECT * FROM game WHERE id='$id'";
+$run = mysqli_query($conn, $select);
+$count = mysqli_num_rows($run);
+if ($count > 0) {
+    while ($row = mysqli_fetch_assoc($run)) {
+        $emparray1[] = $row; // storing data in an array
+        $obj = array("apiResponseMessage" => "Any message here", "apiResponseStatus" => false or true, "status" => 1 or 0, "response" => [$emparray1]); // array to send response back to request
+        $data =  json_encode($emparray1, JSON_PRETTY_PRINT); // sending response back to request
+    }
+} else {
+    $obj = array("apiResponseMessage" => "No Data", "apiResponseStatus" => false, "status" => 0, "response" => []); // response if no data found in database
+    $nodata = json_encode($obj); // encoding array to json 
+    echo $nodata;
+}
 
 
 
 // Below is the api if you want to post,update data to the url
 
-
-
 //  API url
-$url = 'https://moneymakinggames.org/api/login';
+$url = 'https://example.com/api/login'; // url to fetch
 $data = [
-    'email' => 'admin@fellowcoders.com',
-    'pass' => 'admin'
-];
+    'email' => 'admin@example.com',
+    'pass' => 'example2022'
+]; // data to send
 // Initializes a new cURL session
 $curl = curl_init($url);
 // Set the CURLOPT_RETURNTRANSFER option to true
